@@ -93,11 +93,8 @@ COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 # ・COPYとは...https://docs.docker.jp/engine/userguide/eng-image/dockerfile_best-practice.html#add-copy
 
 
-RUN apt-get update && \
-    apt-get -y install git unzip libzip-dev libicu-dev libonig-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    docker-php-ext-install intl pdo_mysql zip bcmath
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs
 # ◆RUN
 # ・現在のイメージ上で指定したコマンドを実行するための命令
 #
@@ -109,6 +106,19 @@ RUN apt-get update && \
 # ◆apt-get
 # ・Debian系のパッケージ管理ツール
 #
+# ◆apt-get -y install ×××
+# ・パッケージのインストール
+# ・Laravelに使用するパッケージのみをインストール
+#
+# ◆参考文献
+# ・&&とは...https://www.tohoho-web.com/docker/dockerfile.html
+
+
+RUN apt-get update && \
+    apt-get -y install git unzip libzip-dev libicu-dev libonig-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-install intl pdo_mysql zip bcmath
 # ◆apt-get update
 # ・インストール可能なパッケージ一覧を更新する
 #
@@ -118,13 +128,6 @@ RUN apt-get update && \
 # ◆docker-php-ext-install intl pdo_mysql zip bcmath
 # ・docker-php-ext-installはPHPの公式Dokcerイメージが用意している、PHP拡張ライブラリを簡単に利用するためのコマンド
 # ・PHPの拡張ライブラリをインストール
-#
-# ◆apt-get -y install ×××
-# ・パッケージのインストール
-# ・Laravelに使用するパッケージのみをインストール
-#
-# ◆参考文献
-# ・&&とは...https://www.tohoho-web.com/docker/dockerfile.html
 
 
 COPY ./php.ini /usr/local/etc/php/php.ini
