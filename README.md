@@ -44,4 +44,9 @@ php artisan key:generate
 php artisan storage:link
 ```
 
-10. [ローカルホスト](http://127.0.0.1:8080/)にアクセスし確認
+10. マイグレーション実行
+```
+php artisan migrate
+```
+
+11. [ローカルホスト](http://127.0.0.1:8080/)にアクセスし確認
